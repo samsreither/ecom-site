@@ -8,6 +8,7 @@ export interface IUser {
     // purchasedItems: string[];
 }
 
+// this is what the user will look like when it comes in from front end
 const UserSchema = new Schema<IUser>({
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
