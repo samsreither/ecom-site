@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { ShopContext, IShopContext } from "../context/shop-context";
-import { useCookies } from "react-cookie";
+
 
 export const Navbar = () => {
   const { availableMoney, isAuthenticated, setIsAuthenticated } = useContext<IShopContext>(ShopContext);
-  const [_, setCookies] = useCookies(["access_token"]);
+  
   const logout = () => {
     setIsAuthenticated(false);
   }
@@ -15,7 +15,7 @@ export const Navbar = () => {
   return (
     <div className="navbar">
       <div className="navbar-title">
-        <h1>Shop</h1>
+        <h1> The Everything Shop </h1>
       </div>
 
       <div className="navbar-links">

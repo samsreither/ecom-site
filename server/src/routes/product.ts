@@ -81,17 +81,17 @@ router.get("/purchased-items/:customerID", verifyToken, async (req: Request, res
   const { customerID } = req.params;
 
     try {
-        const user = await userModel.findById(customerID)
+        const user = await userModel.findById(customerID);
         if (!user) {
             res.status(400).json({type: UserErrors.NO_USER_FOUND})
         }
 
-        const products = await ProductModel.find({ _id: { $in: user?.purchasedItems } })
+        const products = await ProductModel.find({ _id: { $in: user?.purchasedItems } });
 
         res.json({ purchasedItems: products });
-        
+
     } catch (err) {
-        res.status(500).json({ err});
+        res.status(400).json({ type: ProductErrors.NO_USERS_FOUND});
     }
 })
 

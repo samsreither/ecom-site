@@ -137,7 +137,7 @@ export const ShopContextProvider = (props) => {
       fetchAvailableMoney();
       fetchPurchasedItems();
     }
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (!isAuthenticated) {
