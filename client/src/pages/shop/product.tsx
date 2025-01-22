@@ -13,7 +13,6 @@ export const Product = (props: Props) => {
     const {addToCart, getCartItemCount} = useContext<IShopContext>(ShopContext)
         
     const count = getCartItemCount(_id)
-    console.log(count)
 
   return (
     <div className="product">

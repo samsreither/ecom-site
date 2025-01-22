@@ -3,6 +3,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 
 import { userRouter } from "./routes/user"
+import { productRouter } from "./routes/product";
 
 const app = express(); // holds api
 
@@ -11,7 +12,8 @@ app.use(cors()); // just necessary
 
 
 
-app.use("/user", userRouter);
+app.use("/user", userRouter); // for login and register
+app.use("/product", productRouter); // to get the products
 
 mongoose.connect(
   "mongodb+srv://samsreither:ecompassword@ecom.z4jyd.mongodb.net/ecom"
