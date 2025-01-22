@@ -1,3 +1,4 @@
+import './styles.css'
 import { useContext } from "react";
 import { ShopContext, IShopContext } from "../../context/shop-context";
 

@@ -1,8 +1,10 @@
-import { useState, SyntheticEvent } from "react";
+import { useState, SyntheticEvent, useContext } from "react";
 import axios from "axios";
 import { UserErrors } from "../../models/errors";
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom"; // to navigate btwn the different routes
+import { IShopContext, ShopContext } from "../../context/shop-context";
+import './styles.css'; 
 
 export const AuthPage = () => {
   return (
@@ -35,7 +37,7 @@ const Register = () => {
   };
 
   return (
-    <div className="auth-containeer">
+    <div className="auth-container">
       {" "}
       <form onSubmit={handleSubmit}>
         <h2> Register </h2>
@@ -72,6 +74,8 @@ const Login = () => {
     const [_, setCookies] = useCookies(["access_token"]);
 
     const navigate = useNavigate()
+
+    const {setIsAuthenticated} = useContext<IShopContext>(ShopContext)
   
     const handleSubmit = async (event: SyntheticEvent) => {
       event.preventDefault();
@@ -82,6 +86,7 @@ const Login = () => {
       });
       setCookies("access_token", result.data.token); // setting token and userID in local storage - can view in application tab of browser
       localStorage.setItem("userID", result.data.userID);
+      setIsAuthenticated(true);
       navigate("/"); // after we log in, navigate to shopping route (empty route)
       // catch all of the different errors that can occur upon logging in
   } catch(err) {
@@ -108,7 +113,7 @@ const Login = () => {
     };
   
     return (
-      <div className="auth-containeer">
+      <div className="auth-container">
         {" "}
         <form onSubmit={handleSubmit}>
           <h2> Login </h2>
@@ -133,7 +138,7 @@ const Login = () => {
             />
           </div>
   
-          <button type="submit"> Register </button>
+          <button type="submit"> Login </button>
         </form>
       </div>
     );

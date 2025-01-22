@@ -2,10 +2,15 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
-import { ShopContext } from "../context/shop-context";
+import { ShopContext, IShopContext } from "../context/shop-context";
+import { useCookies } from "react-cookie";
 
 export const Navbar = () => {
-  const { availableMoney } = useContext<IShopContext>(ShopContext);
+  const { availableMoney, isAuthenticated, setIsAuthenticated } = useContext<IShopContext>(ShopContext);
+  const [_, setCookies] = useCookies(["access_token"]);
+  const logout = () => {
+    setIsAuthenticated(false);
+  }
 
   return (
     <div className="navbar">
@@ -14,12 +19,16 @@ export const Navbar = () => {
       </div>
 
       <div className="navbar-links">
+        {isAuthenticated && (
+          <>
         <Link to="/"> Shop </Link>
         <Link to="/purchased-items"> Purchases </Link>
         <Link to="/checkout">
           <FontAwesomeIcon icon={faShoppingCart} />
         </Link>
-        <span> ${availableMoney.toFixed(2)} </span>
+        <Link to="/auth" onClick={logout}> Logout </Link>
+        <span> ${availableMoney.toFixed(2)} </span> </>
+      )}
       </div>
     </div>
   );
