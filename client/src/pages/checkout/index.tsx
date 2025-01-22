@@ -1,4 +1,4 @@
-import { ShopContext } from "../../context/shop-context";
+import { ShopContext, IShopContext } from "../../context/shop-context";
 import { useGetProducts } from "../../hooks/useGetProducts";
 import { CartItem } from "./cart-item";
 import { useContext } from "react";

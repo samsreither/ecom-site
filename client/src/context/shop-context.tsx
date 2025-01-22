@@ -56,7 +56,7 @@ export const ShopContextProvider = (props) => {
   const fetchPurchasedItems = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3001/user/product/purchased-items/${localStorage.getItem(
+        `http://localhost:3001/product/purchased-items/${localStorage.getItem(
           "userID"
         )}`,
         { headers }
