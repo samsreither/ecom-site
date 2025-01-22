@@ -3,6 +3,7 @@ import { useGetProducts } from "../hooks/useGetProducts";
 import { useGetToken } from "../hooks/useGetToken";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { IProduct } from "../models/interfaces";
 
 export interface IShopContext {
   addToCart: (itemId: string) => void;
@@ -12,6 +13,7 @@ export interface IShopContext {
   getTotalCartAmount: () => number;
   checkout: () => void;
   availableMoney: number;
+  purchasedItems: IProduct[];
 }
 
 const defaultVal: IShopContext = {
@@ -22,6 +24,7 @@ const defaultVal: IShopContext = {
   getTotalCartAmount: () => 0,
   checkout: () => null,
   availableMoney: 0,
+  purchasedItems: [],
 };
 
 export const ShopContext = createContext<IShopContext>(defaultVal);
@@ -29,6 +32,7 @@ export const ShopContext = createContext<IShopContext>(defaultVal);
 export const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState<{ string: number } | {}>({}); // itemID: amount
   const [availableMoney, setAvailableMoney] = useState<number>(0);
+  const [purchasedItems, setPurchasedItems] = useState<IProduct[]>([]);
 
   const { products } = useGetProducts();
   const { headers } = useGetToken();
@@ -44,6 +48,21 @@ export const ShopContextProvider = (props) => {
       );
 
       setAvailableMoney(res.data.availableMoney);
+    } catch (err) {
+      alert("ERROR: Something went wrong");
+    }
+  };
+
+  const fetchPurchasedItems = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3001/user/product/purchased-items/${localStorage.getItem(
+          "userID"
+        )}`,
+        { headers }
+      );
+
+      setPurchasedItems(res.data.purchasedItems);
     } catch (err) {
       alert("ERROR: Something went wrong");
     }
@@ -108,6 +127,7 @@ export const ShopContextProvider = (props) => {
 
   useEffect(() => {
     fetchAvailableMoney();
+    fetchPurchasedItems();
   }, []);
 
   const contextValue: IShopContext = {
@@ -118,6 +138,7 @@ export const ShopContextProvider = (props) => {
     getTotalCartAmount,
     checkout,
     availableMoney,
+    purchasedItems,
   };
 
   return (
